@@ -1,0 +1,67 @@
+#x = T1, equatorial
+#y=T2, polar
+
+#initial conditions
+init x = 262.4
+init y = 283.9
+#paramters
+param eps = 0.61
+param p1 = 0.3
+param p2 = 0.3
+
+
+Q = 341.3
+Q1 = 382.52
+Q2 = 242.93
+C = 5e8 
+M = 0.1
+s = 5.67e-8 
+ai = 0.7 
+me = 5.1e14 
+m1 = 2.55e14 
+m2 = 2.55e14 
+ac = 0.5
+aw = 0.06 
+al = 0.2 
+
+au1 = 0.5*((1-P1)*aw + P1*al) + 0.5*ac
+au2 = 0.5*((1-P2)*aw + P2*al) + 0.5*ac
+
+
+t1 = 260
+t2 = 290
+#D_nominal=0.35
+param D=0.35
+
+#user deined functions
+a1(x) = ai + (au1 - ai) * ((1 + tanh(M * (x - ((t1 + t2) / 2)))) / 2)
+a2(x) = ai + (au2 - ai) * ((1 + tanh(M * (x - ((t1 + t2) / 2)))) / 2)
+
+#auuxiliary function
+aux Tav = (x+y)/2 
+
+@ Bounds=1000000
+@ dt=86400 #1day
+@ total=3.156e8 #10 years
+
+#ode
+x'=(1/C)*(Q1*(1-a1(x))-eps*(s)*(x*x*x*x) + D*(((x+y)/2) - x))
+y'=(1/C)*(Q2*(1-a2(y))-eps*(s)*(y*y*y*y) + D*(((x+y)/2) - y))
+done
+
+#z' = (z- (x+y)/2)
+#I,G then I,L 10 times
+ai = 0.7 #icealbed0
+me = 5.1e14 # surface area of earth m^2
+m1 = 2.55e14 # surface area of band 1
+m2 = 2.55e14 # surface area of band 2
+l = 1.53e14 #surface area of earth that is land (30%total surface area)
+l2 = 1.224e14 #80% land in pole
+l1 = 3.06e13 #20% land in equator
+ac = 0.5 # cloud albedo
+aw = 0.06 # (water albedo)
+al = 0.2 # (land albedo)
+
+au1 = 0.5*(((m1-l1)*aw + l1*al)/m1)
+au2 = 0.5*(((m2-l2)*aw + l2*al)/m2)
+

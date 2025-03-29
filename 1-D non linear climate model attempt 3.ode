@@ -1,0 +1,39 @@
+#climate model
+
+#dt = 86400(1 day)
+#total time = 3.2e8, 10 years
+#fixed point appears to be 233.28
+
+#initial conditions
+#please work
+
+#initial conditions
+init x = 273
+
+#paramters
+param eps = 0.61
+
+Q = 341.3
+C = 5e8 
+M = 0.1
+s = 5.67e-8 
+a1 = 0.7
+a2 = 0.3
+t1 = 260
+t2 = 290
+
+#user deined functions
+a(x) = a1 + (a2 - a1) * ((1 + tanh(M * (x - ((t1 + t2) / 2)))) / 2)
+
+
+@ Bounds=1000000
+@ dt=86400 #1day
+@ total=3.156e8 #10 years
+
+
+#ode
+x'=(1/C)*(Q*(1-a(x))-eps*(s)*(x*x*x*x))
+done
+
+#make dt=86400(1day)
+#make total time t = 3.156e8 (10 years)

@@ -1,0 +1,53 @@
+#climate model
+#x1=T1,equator
+#8=T8, polar
+
+
+#initial conditions
+init x1 = 290
+init x2 = 285
+init x3 = 280
+init x4 = 275
+init x5 = 270
+init x6 = 265
+init x7 = 260
+init x8 = 255
+#paramters
+param eps = 0.61 
+ 
+Q1 = 419.91
+Q2 = 401.68
+Q3 = 368.00
+Q4 = 323.99
+Q5 = 276.36
+Q6 = 232.35
+Q7 = 198.67
+Q8 = 180.44
+C = 5e8 
+M = 0.1
+s = 5.67e-8 
+a1 = 0.7
+a2 = 0.3
+t1 = 260
+t2 = 290
+#D_nominal=0.35
+param D=2
+
+#user deined functions
+a(x) = a1 + (a2 - a1) * ((1 + tanh(M * (x - ((t1 + t2) / 2)))) / 2) 
+
+@ Bounds=1000000
+@ dt=86400 #1day
+@ total=3.156e8 #10 years
+
+#ode
+x1'=(1/C)*(Q1*(1-a(x1))-eps*(s)*(x1*x1*x1*x1) + D*(((x1+x2+x3+x4+x5+x6+x7+x8)/8) - x1))
+x2'=(1/C)*(Q2*(1-a(x2))-eps*(s)*(x2*x2*x2*x2) + D*(((x1+x2+x3+x4+x5+x6+x7+x8)/8) - x2))
+x3'=(1/C)*(Q3*(1-a(x3))-eps*(s)*(x3*x3*x3*x3) + D*(((x1+x2+x3+x4+x5+x6+x7+x8)/8) - x3))
+x4'=(1/C)*(Q4*(1-a(x4))-eps*(s)*(x4*x4*x4*x4) + D*(((x1+x2+x3+x4+x5+x6+x7+x8)/8) - x4))
+x5'=(1/C)*(Q5*(1-a(x5))-eps*(s)*(x5*x5*x5*x5) + D*(((x1+x2+x3+x4+x5+x6+x7+x8)/8) - x5))
+x6'=(1/C)*(Q6*(1-a(x6))-eps*(s)*(x6*x6*x6*x6) + D*(((x1+x2+x3+x4+x5+x6+x7+x8)/8) - x6))
+x7'=(1/C)*(Q7*(1-a(x7))-eps*(s)*(x7*x7*x7*x7) + D*(((x1+x2+x3+x4+x5+x6+x7+x8)/8) - x7))
+x8'=(1/C)*(Q8*(1-a(x8))-eps*(s)*(x8*x8*x8*x8) + D*(((x1+x2+x3+x4+x5+x6+x7+x8)/8) - x8))
+
+done
